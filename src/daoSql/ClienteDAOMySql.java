@@ -55,6 +55,7 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
+		System.out.println("Created");
 		this.closeConnection(conn);
 
 	}
