@@ -4,7 +4,8 @@ public class Factura_producto {
 
 	private int idFactura;
 	private int idCliente;
-
+	private int cantidad;
+	
 	public Factura_producto() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -14,6 +15,12 @@ public class Factura_producto {
 		super();
 		this.idFactura = idFactura;
 		this.idCliente = idCliente;
+	}
+	public Factura_producto(int idFactura, int idCliente, int cantidad) {
+		super();
+		this.idFactura = idFactura;
+		this.idCliente = idCliente;
+		this.cantidad = cantidad;
 	}
 
 	public int getIdFactura() {
@@ -30,6 +37,11 @@ public class Factura_producto {
 
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
+	}
+
+	public int getCantidad() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
