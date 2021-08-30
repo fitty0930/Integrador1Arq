@@ -1,4 +1,4 @@
-package daoSql;
+package ClienteDao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pojo.Cliente;
-import pojo.Factura;
 
-public class FacturaDAOMySql implements FacturaDAOInterface {
-
+public class ClienteDAOMySql implements ClienteDAOInterface {
 	String driver;
 	String uri;
 
-	public FacturaDAOMySql() {
+	public ClienteDAOMySql() {
 		this.driver = "com.mysql.cj.jdbc.Drive";
 		this.uri = "jdbc:mysql://localhost:3306/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	}
@@ -44,24 +42,29 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 			return false;
 		}
 	}
-	
+
 	@Override
-	public void create(Factura pojo) throws SQLException {
+	public void create(Cliente pojo) throws SQLException {
+		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String insert = "INSERT INTO factura (idFactura, idCliente) VALUES (?, ?)";
+		String insert = "INSERT INTO cliente (idCliente, nombre, email) VALUES (?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
-		ps.setInt(1, pojo.getIdFactura());
-		ps.setInt(2, pojo.getIdCliente());
+		ps.setInt(1, pojo.getId());
+		ps.setString(2, pojo.getNombre());
+		ps.setString(3, pojo.getEmail());
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
+		System.out.println("Created");
 		this.closeConnection(conn);
+
 	}
 
 	@Override
 	public boolean delete(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String delete = "DELETE FROM factura WHERE idCliente=?";
+		String delete = "DELETE FROM cliente WHERE idCliente=?";
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, id);
 		int deleted = ps.executeUpdate();
@@ -74,55 +77,66 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	@Override
 	public void update(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		Connection conn = this.createConnection();
+		String update="UPDATE cliente"
+				+ "SET nombre, email VALUES (?,?)"
+				+ "WHERE idCliente=?;";
+		PreparedStatement ps = conn.prepareStatement(update);
+		ps.setInt(1, id);
+		int updated= ps.executeUpdate();
+		ps.close();
+		conn.commit();
+		this.closeConnection(conn);
+		if(updated!=0) {
+			System.out.println("Database updated successfully ");
+		}
+	    
 	}
 
 	@Override
-	public Factura get(Integer id) throws SQLException {
+	public Cliente get(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String get = "SELECT FROM factura WHERE idFactura=?";
+		String get = "SELECT FROM cliente WHERE idCliente=?";
 		PreparedStatement ps = conn.prepareStatement(get);
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery(get);
 		ps.close();
 		conn.commit();
 		this.closeConnection(conn);
-		Factura f;
+		Cliente c;
 		if (rs.next()) {
-			f = new Factura(rs.getInt(1), rs.getInt(2));
-			return f;
+			c = new Cliente(rs.getString(2), rs.getString(3));
+			return c;
 		} else {
 			return null;
 		}
 	}
 
 	@Override
-	public List<Factura> getAll() throws SQLException {
+	public List<Cliente> getAll() throws SQLException {
+		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String getAll = "SELECT * FROM factura";
+		String getAll = "SELECT * FROM cliente";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
-		ArrayList<Factura> facturaList = new ArrayList<Factura>();
+		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
 		while (rs.next()) {
-			Factura f = new Factura(rs.getInt(1), rs.getInt(2));
-			facturaList.add(f);
+			Cliente c = new Cliente(rs.getString(2), rs.getString(3));
+			clienteList.add(c);
 		}
 		ps.close();
 		this.closeConnection(conn);
-		return facturaList;
+		return clienteList;
 	}
-	
+
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE  factura(" +
-                "idFactura int NOT NULL," +
-                "idCliente int NOT NULL" +
-                "PRIMARY KEY(idFactura),"+
-                "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente))";
+		String table = "CREATE TABLE cliente (" + "idCliente int AUTO_INCREMENT," + "nombre VARCHAR(500),"
+				+ "email VARCHAR(500)," + "PRIMARY KEY(id))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);
 	}
-
 }

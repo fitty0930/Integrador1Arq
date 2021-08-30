@@ -1,2 +1,7 @@
 /daoSql/
 /pojo/
+/ClienteDao/
+/FacturaDao/
+/Producto/
+/FacturaProductoDao/
+/ProductoDao/

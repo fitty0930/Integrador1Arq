@@ -1,5 +1,6 @@
-package daoSql;
+package FacturaProductoDao;
 
+import daoSql.CrudDao;
 import pojo.Factura_producto;
 
 public interface Factura_productoDAOInterface extends CrudDao<Factura_producto, Integer>{
