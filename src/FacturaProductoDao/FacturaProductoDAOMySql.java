@@ -116,7 +116,7 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 	
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE  factura_producto(" +
+		String table = "CREATE TABLE IF NOT EXISTS factura_producto(" +
 				        "idFactura int NOT NULL," +
 				        "idProducto int NOT NULL," +
 				        "cantidad int," +

@@ -47,11 +47,10 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 	public void create(Cliente pojo) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String insert = "INSERT INTO cliente (idCliente, nombre, email) VALUES (?, ?, ?)";
+		String insert = "INSERT INTO cliente (nombre, email) VALUES (?, ?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
-		ps.setInt(1, pojo.getId());
-		ps.setString(2, pojo.getNombre());
-		ps.setString(3, pojo.getEmail());
+		ps.setString(1, pojo.getNombre());
+		ps.setString(2, pojo.getEmail());
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
@@ -123,7 +122,7 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 		conn.commit();
 		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
 		while (rs.next()) {
-			Cliente c = new Cliente(rs.getString(2), rs.getString(3));
+			Cliente c = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3));
 			clienteList.add(c);
 		}
 		ps.close();
@@ -133,8 +132,8 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE cliente (" + "idCliente int AUTO_INCREMENT," + "nombre VARCHAR(500),"
-				+ "email VARCHAR(500)," + "PRIMARY KEY(idCliente))";
+		String table = "CREATE TABLE IF NOT EXISTS cliente (" + "idCliente int AUTO_INCREMENT," + "nombre VARCHAR(500),"
+				+ "email VARCHAR(150)," + "PRIMARY KEY(idCliente))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);

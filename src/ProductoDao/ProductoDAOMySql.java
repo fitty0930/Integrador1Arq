@@ -117,7 +117,7 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 	
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE  producto(" +
+		String table = "CREATE TABLE IF NOT EXISTS producto(" +
 				        "idProducto int AUTO_INCREMENT," +
 				        "nombre VARCHAR(45),"+
 				        "valor FLOAT," +
