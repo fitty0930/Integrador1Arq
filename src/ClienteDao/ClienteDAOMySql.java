@@ -15,14 +15,14 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 	String uri;
 
 	public ClienteDAOMySql() {
-		this.driver = "com.mysql.cj.jdbc.Drive";
-		this.uri = "jdbc:mysql://localhost:3306/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		this.driver = "com.mysql.cj.jdbc.Driver";
+		this.uri = "jdbc:mysql://localhost:3306/integrador1";
 	}
 
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", ""); // cambiar
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -134,7 +134,7 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
 		String table = "CREATE TABLE cliente (" + "idCliente int AUTO_INCREMENT," + "nombre VARCHAR(500),"
-				+ "email VARCHAR(500)," + "PRIMARY KEY(id))";
+				+ "email VARCHAR(500)," + "PRIMARY KEY(idCliente))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);

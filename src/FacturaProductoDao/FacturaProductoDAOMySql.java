@@ -18,13 +18,13 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 
 	public FacturaProductoDAOMySql() {
 		this.driver = "com.mysql.cj.jdbc.Drive";
-		this.uri = "jdbc:mysql://localhost:3306/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		this.uri = "jdbc:mysql://localhost:3306/integrador1";
 	}
 
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", ""); // cambiar
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -118,10 +118,10 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 		Connection conn = this.createConnection();
 		String table = "CREATE TABLE  factura_producto(" +
 				        "idFactura int NOT NULL," +
-				        "idCliente int NOT NULL" +
+				        "idProducto int NOT NULL," +
 				        "cantidad int," +
-				        "FOREIGN KEY (idFactura) REFERENCES factura(idFactura)"+
-				        "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente))";
+				        "FOREIGN KEY (idFactura) REFERENCES factura(idFactura),"+
+				        "FOREIGN KEY (idProducto) REFERENCES producto(idProducto))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);

@@ -19,13 +19,13 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 
 	public ProductoDAOMySql() {
 		this.driver = "com.mysql.cj.jdbc.Drive";
-		this.uri = "jdbc:mysql://localhost:3306/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		this.uri = "jdbc:mysql://localhost:3306/integrador1";
 	}
 
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", ""); // cambiar
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
