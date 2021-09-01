@@ -41,7 +41,11 @@ public class Factura_producto {
 
 	public int getCantidad() {
 		// TODO Auto-generated method stub
-		return 0;
+		return cantidad;
+	}
+	
+	public void setCantidad(int cantidad) {
+		this.cantidad=cantidad;
 	}
 
 }
