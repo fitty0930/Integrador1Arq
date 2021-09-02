@@ -3,7 +3,6 @@ package Main;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -12,18 +11,25 @@ import org.apache.commons.csv.CSVRecord;
 import pojo.Producto;
 
 public class CSVaMySql {
+	ArrayList<Producto>productos;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		List<Producto>productos=new ArrayList<Producto>();
-		productos = importarCSV();
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		
+//		ArrayList<Producto>productos=new ArrayList<Producto>();
+//		this.productos = importarCSV();
+//	}
+	public CSVaMySql() {
+		this.productos = importarCSV();
+	}
+	
+	public ArrayList<Producto> getProductos(){
+		return this.productos;
 	}
 
 	@SuppressWarnings("deprecation")
-	private static List<Producto> importarCSV() {
+	private ArrayList<Producto> importarCSV() {
 		// TODO Auto-generated method stub
-		List<Producto>productos=new ArrayList<Producto>();
 		
 		CSVParser parser;
 		try {
@@ -36,7 +42,9 @@ public class CSVaMySql {
 //				System.out.println(row.get("idProducto"));
 //				System.out.println(row.get("nombre"));
 //				System.out.println(row.get("valor"));
-				}
+				this.productos.add(producto);
+			}
+			return productos;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -113,6 +113,22 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 		this.closeConnection(conn);
 		return productoList;
 	}
+	@Override
+	public List<Producto> getProductsForMoreCollections() throws SQLException {
+		Connection conn = this.createConnection();
+		String getAll = "SELECT producto, COUNT(producto) as cant FROM producto "
+				+ "p JOIN factura f ON (p.id_producto = f.id_producto) JOIN factura_producto fp ON f.id_producto = fp.id_producto"
+				+ "GROUP BY cant*fp.id_producto"
+				+ "ORDER BY total DESC"
+				+ "LIMIT 1";
+		PreparedStatement ps = conn.prepareStatement(getAll);
+		ResultSet rs = ps.executeQuery(getAll);
+		conn.commit();
+		Producto p = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+		ps.close();
+		this.closeConnection(conn);
+		return p;
+	}
 
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
