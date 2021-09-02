@@ -45,8 +45,12 @@ public class MainTables {
 //		insertarLista(facturas, daoFactura);
 //		insertarLista(facturaProductos, daoFacturaProducto);
 		
-		Producto p = daoProducto.getProductsForMoreCollections();
-		System.out.println(p.toString());
+//		Producto p = daoProducto.getProductsForMoreCollections();
+//		System.out.println(p.toString());
+		ArrayList<Cliente> clienteList = daoCliente.clientSortByCollection();
+		for(Cliente cliente:clienteList) {
+			System.out.println(cliente.toString());
+		}
 	}
 
 	public static <T> void insertarLista(ArrayList<T> Objects, CrudDao dao) {

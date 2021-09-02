@@ -130,6 +130,23 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 		this.closeConnection(conn);
 		return clienteList;
 	}
+	
+	public ArrayList<Cliente> clientSortByCollection() throws SQLException {
+		// TODO Auto-generated method stub
+		Connection conn = this.createConnection();
+		String getAll ="SELECT c.idCliente, c.nombre, c.email FROM cliente c JOIN factura f ON (c.idCliente = f.idCliente) JOIN factura_producto fp ON f.idFactura = fp.idFactura JOIN producto p ON fp.idProducto = p.idProducto GROUP BY c.idCliente ORDER BY (fp.cantidad * p.valor) DESC";
+		PreparedStatement ps = conn.prepareStatement(getAll);
+		ResultSet rs = ps.executeQuery(getAll);
+		conn.commit();
+		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
+		while (rs.next()) {
+			Cliente c = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3));
+			clienteList.add(c);
+		}
+		ps.close();
+		this.closeConnection(conn);
+		return clienteList;
+	}
 
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
