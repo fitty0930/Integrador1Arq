@@ -24,8 +24,8 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
-//			conn = DriverManager.getConnection(uri, "root", "");
+//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -48,11 +48,12 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 	
 	@Override
 	public void create(Factura_producto pojo) throws SQLException {
+		System.out.println(pojo.toString());
 		Connection conn = this.createConnection();
-		String insert = "INSERT INTO factura_producto (idFactura, idCliente, cantidad) VALUES (?, ?, ?)";
+		String insert = "INSERT INTO factura_producto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
 		ps.setInt(1, pojo.getIdFactura());
-		ps.setInt(2, pojo.getIdCliente());
+		ps.setInt(2, pojo.getidProducto());
 		ps.setInt(3, pojo.getCantidad());
 		ps.executeUpdate();
 		ps.close();

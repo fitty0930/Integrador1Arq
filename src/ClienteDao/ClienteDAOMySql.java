@@ -23,8 +23,8 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
-//			conn = DriverManager.getConnection(uri, "root", "");
+//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -56,7 +56,6 @@ public class ClienteDAOMySql implements ClienteDAOInterface {
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
-		System.out.println("Created");
 		this.closeConnection(conn);
 
 	}

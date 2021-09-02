@@ -23,8 +23,8 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
-//			conn = DriverManager.getConnection(uri, "root", "");
+//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -52,7 +52,7 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 		PreparedStatement ps = conn.prepareStatement(insert);
 		ps.setInt(1, pojo.getIdProducto());
 		ps.setString(2, pojo.getNombre());
-		ps.setFloat(2, pojo.getValor());
+		ps.setFloat(3, pojo.getValor());
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
@@ -78,6 +78,25 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 
 	}
 
+	
+
+	@Override
+	public List<Producto> getAll() throws SQLException {
+		Connection conn = this.createConnection();
+		String getAll = "SELECT * FROM producto";
+		PreparedStatement ps = conn.prepareStatement(getAll);
+		ResultSet rs = ps.executeQuery(getAll);
+		conn.commit();
+		ArrayList<Producto> productoList = new ArrayList<Producto>();
+		while (rs.next()) {
+			Producto f = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+			productoList.add(f);
+		}
+		ps.close();
+		this.closeConnection(conn);
+		return productoList;
+	}
+	
 	@Override
 	public Producto get(Integer id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -96,37 +115,15 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 			return null;
 		}
 	}
-
-	@Override
-	public List<Producto> getAll() throws SQLException {
+	public Producto getProductsForMoreCollections() throws SQLException {
 		Connection conn = this.createConnection();
-		String getAll = "SELECT * FROM producto";
+		String getAll = "SELECT p.idProducto, p.nombre, p.valor FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto GROUP BY fp.cantidad * p.valor DESC LIMIT 1";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
-		ArrayList<Producto> productoList = new ArrayList<Producto>();
-		while (rs.next()) {
-			Producto f = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(3));
-			productoList.add(f);
-		}
-		ps.close();
+		Producto p = new Producto (rs.getInt(1), rs.getString(2), rs.getFloat(3));
 		this.closeConnection(conn);
-		return productoList;
-	}
-	@Override
-	public List<Producto> getProductsForMoreCollections() throws SQLException {
-		Connection conn = this.createConnection();
-		String getAll = "SELECT producto, COUNT(producto) as cant FROM producto "
-				+ "p JOIN factura f ON (p.id_producto = f.id_producto) JOIN factura_producto fp ON f.id_producto = fp.id_producto"
-				+ "GROUP BY cant*fp.id_producto"
-				+ "ORDER BY total DESC"
-				+ "LIMIT 1";
-		PreparedStatement ps = conn.prepareStatement(getAll);
-		ResultSet rs = ps.executeQuery(getAll);
-		conn.commit();
-		Producto p = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(3));
 		ps.close();
-		this.closeConnection(conn);
 		return p;
 	}
 
