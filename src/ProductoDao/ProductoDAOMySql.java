@@ -78,8 +78,6 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 
 	}
 
-	
-
 	@Override
 	public List<Producto> getAll() throws SQLException {
 		Connection conn = this.createConnection();
@@ -96,7 +94,7 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 		this.closeConnection(conn);
 		return productoList;
 	}
-	
+
 	@Override
 	public Producto get(Integer id) throws SQLException {
 		Connection conn = this.createConnection();
@@ -115,16 +113,22 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 			return null;
 		}
 	}
+
 	public Producto getProductsForMoreCollections() throws SQLException {
 		Connection conn = this.createConnection();
-		String getAll = "SELECT p.idProducto, p.nombre, p.valor FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto GROUP BY fp.cantidad * p.valor DESC LIMIT 1";
+		String getAll = "SELECT p.idProducto, p.nombre, p.valor FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto GROUP BY (fp.cantidad * p.valor) DESC LIMIT 1";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
-		Producto p = new Producto (rs.getInt(1), rs.getString(2), rs.getFloat(3));
-		this.closeConnection(conn);
-		ps.close();
-		return p;
+		if (rs.next()) {
+			Producto p = new Producto(rs.getInt(1), rs.getString(2), rs.getFloat(3));
+			this.closeConnection(conn);
+			ps.close();
+			return p;
+		} else {
+			return null;
+		}
+//		https://stackoverflow.com/questions/2120255/resultset-exception-before-start-of-result-set
 	}
 
 	public void createTables() throws SQLException {
