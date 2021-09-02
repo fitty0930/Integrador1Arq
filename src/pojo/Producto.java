@@ -29,6 +29,11 @@ public class Producto {
 		return valor;
 	}
 
+	@Override
+	public String toString() {
+		return "Producto [idProducto=" + idProducto + ", nombre=" + nombre + ", valor=" + valor + "]";
+	}
+
 	public void setValor(float valor) {
 		this.valor = valor;
 	}

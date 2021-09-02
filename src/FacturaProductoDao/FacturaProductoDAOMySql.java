@@ -1,4 +1,4 @@
-package daoSql;
+package FacturaProductoDao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,23 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import pojo.Cliente;
-import pojo.Factura;
+import pojo.Factura_producto;
 
-public class FacturaDAOMySql implements FacturaDAOInterface {
-
+public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
+	
 	String driver;
 	String uri;
 
-	public FacturaDAOMySql() {
+	public FacturaProductoDAOMySql() {
 		this.driver = "com.mysql.cj.jdbc.Drive";
-		this.uri = "jdbc:mysql://localhost:3306/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+//		Apparently, to get version 5.1.33 of MySQL JDBC driver to work with UTC time zone, one has to specify the serverTimezone explicitly in the connection string.
+		this.uri = "jdbc:mysql://localhost/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	}
 
 	private Connection createConnection() {
 		Connection conn;
 		try {
-			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
+			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
 		} catch (SQLException e) {
@@ -46,12 +47,14 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	}
 	
 	@Override
-	public void create(Factura pojo) throws SQLException {
+	public void create(Factura_producto pojo) throws SQLException {
+		System.out.println(pojo.toString());
 		Connection conn = this.createConnection();
-		String insert = "INSERT INTO factura (idFactura, idCliente) VALUES (?, ?)";
+		String insert = "INSERT INTO factura_producto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
 		ps.setInt(1, pojo.getIdFactura());
-		ps.setInt(2, pojo.getIdCliente());
+		ps.setInt(2, pojo.getidProducto());
+		ps.setInt(3, pojo.getCantidad());
 		ps.executeUpdate();
 		ps.close();
 		conn.commit();
@@ -61,7 +64,7 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	@Override
 	public boolean delete(Integer id) throws SQLException {
 		Connection conn = this.createConnection();
-		String delete = "DELETE FROM factura WHERE idCliente=?";
+		String delete = "DELETE FROM factura_producto WHERE idFactura=?";
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, id);
 		int deleted = ps.executeUpdate();
@@ -78,18 +81,18 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	}
 
 	@Override
-	public Factura get(Integer id) throws SQLException {
+	public Factura_producto get(Integer id) throws SQLException {
 		Connection conn = this.createConnection();
-		String get = "SELECT FROM factura WHERE idFactura=?";
+		String get = "SELECT FROM factura_producto WHERE idFactura=?";
 		PreparedStatement ps = conn.prepareStatement(get);
 		ps.setInt(1, id);
 		ResultSet rs = ps.executeQuery(get);
 		ps.close();
 		conn.commit();
 		this.closeConnection(conn);
-		Factura f;
+		Factura_producto f;
 		if (rs.next()) {
-			f = new Factura(rs.getInt(1), rs.getInt(2));
+			f = new Factura_producto(rs.getInt(1), rs.getInt(2),rs.getInt(3));
 			return f;
 		} else {
 			return null;
@@ -97,32 +100,32 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	}
 
 	@Override
-	public List<Factura> getAll() throws SQLException {
+	public List<Factura_producto> getAll() throws SQLException {
 		Connection conn = this.createConnection();
 		String getAll = "SELECT * FROM factura";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
-		ArrayList<Factura> facturaList = new ArrayList<Factura>();
+		ArrayList<Factura_producto> facturaProductoList = new ArrayList<Factura_producto>();
 		while (rs.next()) {
-			Factura f = new Factura(rs.getInt(1), rs.getInt(2));
-			facturaList.add(f);
+			Factura_producto f = new Factura_producto(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+			facturaProductoList.add(f);
 		}
 		ps.close();
 		this.closeConnection(conn);
-		return facturaList;
+		return facturaProductoList;
 	}
 	
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE  factura(" +
-                "idFactura int NOT NULL," +
-                "idCliente int NOT NULL" +
-                "PRIMARY KEY(idFactura),"+
-                "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente))";
+		String table = "CREATE TABLE IF NOT EXISTS factura_producto(" +
+				        "idFactura int NOT NULL," +
+				        "idProducto int NOT NULL," +
+				        "cantidad int," +
+				        "FOREIGN KEY (idFactura) REFERENCES factura(idFactura),"+
+				        "FOREIGN KEY (idProducto) REFERENCES producto(idProducto))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);
 	}
-
 }

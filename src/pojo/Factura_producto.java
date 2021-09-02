@@ -3,17 +3,24 @@ package pojo;
 public class Factura_producto {
 
 	private int idFactura;
-	private int idCliente;
-
+	private int idProducto;
+	private int cantidad;
+	
 	public Factura_producto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Factura_producto(int idFactura, int idCliente) {
+	public Factura_producto(int idFactura, int idProducto) {
 		super();
 		this.idFactura = idFactura;
-		this.idCliente = idCliente;
+		this.idProducto = idProducto;
+	}
+	public Factura_producto(int idFactura, int idProducto, int cantidad) {
+		super();
+		this.idFactura = idFactura;
+		this.idProducto = idProducto;
+		this.cantidad = cantidad;
 	}
 
 	public int getIdFactura() {
@@ -24,12 +31,26 @@ public class Factura_producto {
 		this.idFactura = idFactura;
 	}
 
-	public int getIdCliente() {
-		return idCliente;
+	public int getidProducto() {
+		return idProducto;
 	}
 
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setidProducto(int idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public int getCantidad() {
+		// TODO Auto-generated method stub
+		return cantidad;
+	}
+	
+	public void setCantidad(int cantidad) {
+		this.cantidad=cantidad;
+	}
+
+	@Override
+	public String toString() {
+		return "Factura_producto [idFactura=" + idFactura + ", idProducto=" + idProducto + ", cantidad=" + cantidad + "]";
 	}
 
 }
