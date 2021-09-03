@@ -8,41 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import InterfacesyAbstracts.SQLConnection;
 import pojo.Factura_producto;
 
-public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
+public class FacturaProductoDAOMySql extends SQLConnection implements FacturaProductoDAOInterface {
 	
 	String driver;
 	String uri;
 
 	public FacturaProductoDAOMySql() {
-		this.driver = "com.mysql.cj.jdbc.Drive";
-//		Apparently, to get version 5.1.33 of MySQL JDBC driver to work with UTC time zone, one has to specify the serverTimezone explicitly in the connection string.
-		this.uri = "jdbc:mysql://localhost/integrador1?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	}
-
-	private Connection createConnection() {
-		Connection conn;
-		try {
-			conn = DriverManager.getConnection(uri, "root", "");
-			conn.setAutoCommit(false);
-			return conn;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	private boolean closeConnection(Connection conn) {
-		try {
-			conn.close();
-			return conn.isClosed();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
 	}
 	
 	@Override

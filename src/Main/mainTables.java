@@ -25,25 +25,25 @@ public class MainTables {
 		FacturaProductoDAOMySql daoFacturaProducto = (FacturaProductoDAOMySql) factory.getFacturaProductoDAO();
 		CSVaMySql csvs = new CSVaMySql();
 
-//		try {
-//			daoCliente.createTables();
-//			daoFactura.createTables();
-//			daoProducto.createTables();
-//			daoFacturaProducto.createTables();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		ArrayList<Producto> productos = csvs.getProductos();
-//		ArrayList<Cliente> clientes = csvs.getClientes();
-//		ArrayList<Factura> facturas = csvs.getFacturas();
-//		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
-//
-//		insertarLista(clientes, daoCliente);
-//		insertarLista(productos, daoProducto);
-//		insertarLista(facturas, daoFactura);
-//		insertarLista(facturaProductos, daoFacturaProducto);
+		try {
+			daoCliente.createTables();
+			daoFactura.createTables();
+			daoProducto.createTables();
+			daoFacturaProducto.createTables();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ArrayList<Producto> productos = csvs.getProductos();
+		ArrayList<Cliente> clientes = csvs.getClientes();
+		ArrayList<Factura> facturas = csvs.getFacturas();
+		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
+
+		insertarLista(clientes, daoCliente);
+		insertarLista(productos, daoProducto);
+		insertarLista(facturas, daoFactura);
+		insertarLista(facturaProductos, daoFacturaProducto);
 
 //		PREGUNTAR SI TIENE SENTIDO IMPRIMIR EL ID
 //		PREGUNTAR SI ES NECESARIO INFORMAR TAMBIEN LA RECAUDACIÓN Y EL MONTO TOTAL GASTADO
