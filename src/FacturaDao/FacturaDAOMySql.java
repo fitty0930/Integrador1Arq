@@ -23,7 +23,6 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
 			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
@@ -113,6 +112,7 @@ public class FacturaDAOMySql implements FacturaDAOInterface {
 		return facturaList;
 	}
 	
+	@Override
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
 		String table = "CREATE TABLE IF NOT EXISTS factura(" +

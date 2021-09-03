@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import pojo.Producto;
 
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
 public class ProductoDAOMySql implements ProductoDAOInterface {
 
 	String driver;
@@ -23,7 +28,6 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
 			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
@@ -114,9 +118,10 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 		}
 	}
 
+	@Override
 	public Producto getProductsForMoreCollections() throws SQLException {
 		Connection conn = this.createConnection();
-		String getAll = "SELECT p.idProducto, p.nombre, p.valor FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto GROUP BY (fp.cantidad * p.valor) DESC LIMIT 1";
+		String getAll = "SELECT p.idProducto,p.nombre,p.valor,SUM(cantidad) as cantidad, SUM(cantidad)*p.valor AS total FROM producto p JOIN factura_producto fp ON p.idProducto = fp.idProducto GROUP BY p.idProducto ORDER BY total DESC LIMIT 1";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
@@ -131,6 +136,7 @@ public class ProductoDAOMySql implements ProductoDAOInterface {
 //		https://stackoverflow.com/questions/2120255/resultset-exception-before-start-of-result-set
 	}
 
+	@Override
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
 		String table = "CREATE TABLE IF NOT EXISTS producto(" + "idProducto int AUTO_INCREMENT," + "nombre VARCHAR(45),"

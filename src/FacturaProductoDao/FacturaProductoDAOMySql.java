@@ -24,7 +24,6 @@ public class FacturaProductoDAOMySql implements FacturaProductoDAOInterface {
 	private Connection createConnection() {
 		Connection conn;
 		try {
-//			conn = DriverManager.getConnection(uri, "root", "40549429"); // cambiar
 			conn = DriverManager.getConnection(uri, "root", "");
 			conn.setAutoCommit(false);
 			return conn;
