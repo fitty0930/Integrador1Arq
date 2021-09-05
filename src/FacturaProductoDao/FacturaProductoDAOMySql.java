@@ -21,7 +21,7 @@ public class FacturaProductoDAOMySql extends SQLConnection implements FacturaPro
 	
 	@Override
 	public void create(Factura_producto pojo) throws SQLException {
-		System.out.println(pojo.toString());
+//		System.out.println(pojo.toString());
 		Connection conn = this.createConnection();
 		String insert = "INSERT INTO factura_producto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
