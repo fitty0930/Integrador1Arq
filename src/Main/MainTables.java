@@ -1,8 +1,8 @@
 package Main;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 
 import ClienteDao.ClienteDAOMySql;
 import FacturaDao.FacturaDAOMySql;
@@ -23,36 +23,44 @@ public class MainTables {
 		FacturaDAOMySql daoFactura = (FacturaDAOMySql) factory.getFacturaDAO();
 		ProductoDAOMySql daoProducto = (ProductoDAOMySql) factory.getProductoDAO();
 		FacturaProductoDAOMySql daoFacturaProducto = (FacturaProductoDAOMySql) factory.getFacturaProductoDAO();
-		CSVaMySql csvs= new CSVaMySql();
-		
+		CSVaMySql csvs = new CSVaMySql();
 
-//		try {
-//			daoCliente.createTables();
-//			daoFactura.createTables();
-//			daoProducto.createTables();
-//			daoFacturaProducto.createTables();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			daoCliente.createTables();
+			daoFactura.createTables();
+			daoProducto.createTables();
+			daoFacturaProducto.createTables();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-//		ArrayList<Producto> productos= csvs.getProductos();
-//		ArrayList<Cliente> clientes= csvs.getClientes();
-//		ArrayList<Factura> facturas= csvs.getFacturas();
-//		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
-//		
-//		insertarLista(clientes, daoCliente);
-//		insertarLista(productos, daoProducto);
-//		insertarLista(facturas, daoFactura);
-//		insertarLista(facturaProductos, daoFacturaProducto);
-//		
+		ArrayList<Producto> productos = csvs.getProductos();
+		ArrayList<Cliente> clientes = csvs.getClientes();
+		ArrayList<Factura> facturas = csvs.getFacturas();
+		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
+
+		insertarLista(clientes, daoCliente);
+		insertarLista(productos, daoProducto);
+		insertarLista(facturas, daoFactura);
+		insertarLista(facturaProductos, daoFacturaProducto);
+
+//		PREGUNTAR SI TIENE SENTIDO IMPRIMIR EL ID
+//		PREGUNTAR SI ES NECESARIO INFORMAR TAMBIEN LA RECAUDACIÓN Y EL MONTO TOTAL GASTADO
+		System.out.println("El producto que mas recaudó fue:");
 		Producto p = daoProducto.getProductsForMoreCollections();
 		System.out.println(p.toString());
+		System.out.println("Los clientes que mas invirtieron en nuestro negocio son: ");
+		ArrayList<Cliente> clienteList = daoCliente.clientSortByCollection();
+		for(Cliente cliente:clienteList) {
+			System.out.println(cliente.toString());
+		}
 	}
+
 	public static <T> void insertarLista(ArrayList<T> Objects, CrudDao dao) {
 		Iterator<T> listIterator = Objects.iterator();
-		while(listIterator.hasNext()) {
-			Object obj =  listIterator.next();
+		while (listIterator.hasNext()) {
+			Object obj = listIterator.next();
 			try {
 				dao.create(obj);
 			} catch (SQLException e) {
@@ -61,5 +69,7 @@ public class MainTables {
 			}
 		}
 	}
+	
+	
 
 }
