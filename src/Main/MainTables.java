@@ -50,6 +50,8 @@ public class MainTables {
 		System.out.println("El producto que mas recaudo fue:");
 		Producto p = daoProducto.getProductsForMoreCollections();
 		System.out.println(p.toString());
+		System.out.println("");
+		System.out.println("");
 		System.out.println("Los clientes que mas invirtieron en nuestro negocio son: ");
 		ArrayList<Cliente> clienteList = daoCliente.clientSortByCollection();
 		for(Cliente cliente:clienteList) {
