@@ -25,28 +25,32 @@ public class MainTables {
 		FacturaProductoDAOMySql daoFacturaProducto = (FacturaProductoDAOMySql) factory.getFacturaProductoDAO();
 		CSVaMySql csvs = new CSVaMySql();
 
-//		try {
-//			daoCliente.createTables();
-//			daoFactura.createTables();
-//			daoProducto.createTables();
-//			daoFacturaProducto.createTables();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		ArrayList<Producto> productos = csvs.getProductos();
-//		ArrayList<Cliente> clientes = csvs.getClientes();
-//		ArrayList<Factura> facturas = csvs.getFacturas();
-//		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
-//
-//		insertarLista(clientes, daoCliente);
-//		insertarLista(productos, daoProducto);
-//		insertarLista(facturas, daoFactura);
-//		insertarLista(facturaProductos, daoFacturaProducto);
-		
-//		Producto p = daoProducto.getProductsForMoreCollections();
-//		System.out.println(p.toString());
+		try {
+			daoCliente.createTables();
+			daoFactura.createTables();
+			daoProducto.createTables();
+			daoFacturaProducto.createTables();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ArrayList<Producto> productos = csvs.getProductos();
+		ArrayList<Cliente> clientes = csvs.getClientes();
+		ArrayList<Factura> facturas = csvs.getFacturas();
+		ArrayList<Factura_producto> facturaProductos = csvs.getFacturasProductos();
+
+		insertarLista(clientes, daoCliente);
+		insertarLista(productos, daoProducto);
+		insertarLista(facturas, daoFactura);
+		insertarLista(facturaProductos, daoFacturaProducto);
+
+//		PREGUNTAR SI TIENE SENTIDO IMPRIMIR EL ID
+//		PREGUNTAR SI ES NECESARIO INFORMAR TAMBIEN LA RECAUDACIÓN Y EL MONTO TOTAL GASTADO
+		System.out.println("El producto que mas recaudó fue:");
+		Producto p = daoProducto.getProductsForMoreCollections();
+		System.out.println(p.toString());
+		System.out.println("Los clientes que mas invirtieron en nuestro negocio son: ");
 		ArrayList<Cliente> clienteList = daoCliente.clientSortByCollection();
 		for(Cliente cliente:clienteList) {
 			System.out.println(cliente.toString());
@@ -67,11 +71,5 @@ public class MainTables {
 	}
 	
 	
-//	CONSULTA SQL PARA EL EJERCICIO 4 
-//	SELECT c.idCliente, c.nombre, c.email FROM cliente c 
-//	JOIN factura f ON (c.idCliente = f.idCliente) 
-//	JOIN factura_producto fp ON f.idFactura = fp.idFactura
-//	JOIN producto p ON fp.idProducto = p.idProducto
-//	GROUP BY c.idCliente ORDER BY (fp.cantidad * p.valor) DESC LIMIT 1;
 
 }
