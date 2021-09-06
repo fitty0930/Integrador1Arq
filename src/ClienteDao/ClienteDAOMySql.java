@@ -10,7 +10,7 @@ import java.util.List;
 import InterfacesyAbstracts.SQLConnection;
 import pojo.Cliente;
 /**
- * 
+ * .
  * @author Grupo 15: Benjamin, Franco y Martin
  *
  */
