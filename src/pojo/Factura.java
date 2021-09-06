@@ -1,5 +1,10 @@
 package pojo;
 
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
 public class Factura {
 	private int idFactura;
 	private int idCliente;

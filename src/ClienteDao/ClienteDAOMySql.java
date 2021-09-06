@@ -11,7 +11,8 @@ import InterfacesyAbstracts.SQLConnection;
 import pojo.Cliente;
 
 /**
- * .
+ * Esta clase nos permite crear un objeto ClienteDao para luego realizar las
+ * consultas en la Base de Datos
  * 
  * @author Grupo 15: Benjamin, Franco y Martin
  *

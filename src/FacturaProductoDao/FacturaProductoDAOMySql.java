@@ -6,9 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import InterfacesyAbstracts.SQLConnection;
 import pojo.Factura_producto;
+
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
 
 public class FacturaProductoDAOMySql extends SQLConnection implements FacturaProductoDAOInterface {
 

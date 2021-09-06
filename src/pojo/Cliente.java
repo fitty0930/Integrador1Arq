@@ -1,5 +1,10 @@
 package pojo;
 
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
 public class Cliente {
 
 	private int idCliente;
@@ -16,13 +21,13 @@ public class Cliente {
 		this.nombre = nombre;
 		this.email = email;
 	}
-	
+
 	// solo para retornar
 	public Cliente(int idCliente, String nombre, String email) {
 		super();
 		this.nombre = nombre;
 		this.email = email;
-		this.idCliente=idCliente;
+		this.idCliente = idCliente;
 	}
 
 	public String getNombre() {

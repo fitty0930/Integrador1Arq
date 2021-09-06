@@ -45,8 +45,7 @@ public class MainTables {
 		insertarLista(facturas, daoFactura);
 		insertarLista(facturaProductos, daoFacturaProducto);
 
-//		PREGUNTAR SI TIENE SENTIDO IMPRIMIR EL ID
-//		PREGUNTAR SI ES NECESARIO INFORMAR TAMBIEN LA RECAUDACIÓN Y EL MONTO TOTAL GASTADO
+
 		System.out.println("El producto que mas recaudo fue:");
 		Producto p = daoProducto.getProductsForMoreCollections();
 		System.out.println(p.toString());
