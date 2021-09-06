@@ -12,11 +12,9 @@ import pojo.Factura;
 
 public class FacturaDAOMySql extends SQLConnection implements FacturaDAOInterface {
 
-
 	public FacturaDAOMySql() {
 	}
-	
-	
+
 	@Override
 	public void create(Factura pojo) throws SQLException {
 		Connection conn = this.createConnection();
@@ -46,7 +44,7 @@ public class FacturaDAOMySql extends SQLConnection implements FacturaDAOInterfac
 	@Override
 	public void update(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -84,15 +82,12 @@ public class FacturaDAOMySql extends SQLConnection implements FacturaDAOInterfac
 		this.closeConnection(conn);
 		return facturaList;
 	}
-	
+
 	@Override
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE IF NOT EXISTS factura(" +
-                "idFactura int ," +
-                "idCliente int NOT NULL," +
-                "PRIMARY KEY(idFactura),"+
-                "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente))";
+		String table = "CREATE TABLE IF NOT EXISTS factura(" + "idFactura int ," + "idCliente int NOT NULL,"
+				+ "PRIMARY KEY(idFactura)," + "FOREIGN KEY (idCliente) REFERENCES cliente(idCliente))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);

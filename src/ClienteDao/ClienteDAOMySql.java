@@ -9,14 +9,14 @@ import java.util.List;
 
 import InterfacesyAbstracts.SQLConnection;
 import pojo.Cliente;
+
 /**
+ * .
  * 
  * @author Grupo 15: Benjamin, Franco y Martin
  *
  */
 public class ClienteDAOMySql extends SQLConnection implements ClienteDAOInterface {
-	String driver;
-	String uri;
 
 	public ClienteDAOMySql() {
 	}
@@ -54,19 +54,17 @@ public class ClienteDAOMySql extends SQLConnection implements ClienteDAOInterfac
 	public void update(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String update="UPDATE cliente"
-				+ "SET nombre, email VALUES (?,?)"
-				+ "WHERE idCliente=?;";
+		String update = "UPDATE cliente" + "SET nombre, email VALUES (?,?)" + "WHERE idCliente=?;";
 		PreparedStatement ps = conn.prepareStatement(update);
 		ps.setInt(1, id);
-		int updated= ps.executeUpdate();
+		int updated = ps.executeUpdate();
 		ps.close();
 		conn.commit();
 		this.closeConnection(conn);
-		if(updated!=0) {
+		if (updated != 0) {
 			System.out.println("Database updated successfully ");
 		}
-	    
+
 	}
 
 	@Override
@@ -99,25 +97,25 @@ public class ClienteDAOMySql extends SQLConnection implements ClienteDAOInterfac
 		conn.commit();
 		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
 		while (rs.next()) {
-			Cliente c = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3));
+			Cliente c = new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3));
 			clienteList.add(c);
 		}
 		ps.close();
 		this.closeConnection(conn);
 		return clienteList;
 	}
-	
+
 	@Override
 	public ArrayList<Cliente> clientSortByCollection() throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = this.createConnection();
-		String getAll ="SELECT c.idCliente, c.nombre, c.email, SUM(fp.cantidad) as cantidad, SUM(fp.cantidad)*p.valor AS total FROM cliente c JOIN factura f ON (c.idCliente = f.idCliente) JOIN factura_producto fp ON f.idFactura = fp.idFactura JOIN producto p ON fp.idProducto = p.idProducto GROUP BY c.idCliente ORDER BY total DESC";
+		String getAll = "SELECT c.idCliente, c.nombre, c.email, SUM(fp.cantidad) as cantidad, SUM(fp.cantidad)*p.valor AS total FROM cliente c JOIN factura f ON (c.idCliente = f.idCliente) JOIN factura_producto fp ON f.idFactura = fp.idFactura JOIN producto p ON fp.idProducto = p.idProducto GROUP BY c.idCliente ORDER BY total DESC";
 		PreparedStatement ps = conn.prepareStatement(getAll);
 		ResultSet rs = ps.executeQuery(getAll);
 		conn.commit();
 		ArrayList<Cliente> clienteList = new ArrayList<Cliente>();
 		while (rs.next()) {
-			Cliente c = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3));
+			Cliente c = new Cliente(rs.getInt(1), rs.getString(2), rs.getString(3));
 			clienteList.add(c);
 		}
 		ps.close();

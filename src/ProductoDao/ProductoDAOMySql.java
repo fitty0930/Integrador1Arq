@@ -17,9 +17,6 @@ import pojo.Producto;
  */
 public class ProductoDAOMySql extends SQLConnection implements ProductoDAOInterface {
 
-	String driver;
-	String uri;
-
 	public ProductoDAOMySql() {
 	}
 
