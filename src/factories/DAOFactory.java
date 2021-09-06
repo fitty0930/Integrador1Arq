@@ -5,6 +5,11 @@ import FacturaDao.FacturaDAOInterface;
 import FacturaProductoDao.FacturaProductoDAOInterface;
 import ProductoDao.ProductoDAOInterface;
 
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
 public abstract class DAOFactory {
 
 	public static final int SQL = 1;

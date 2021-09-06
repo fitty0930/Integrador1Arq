@@ -1,5 +1,11 @@
 package pojo;
 
+/**
+ * 
+ * @author Grupo 15: Benjamin, Franco y Martin
+ *
+ */
+
 public class Producto {
 	private int idProducto;
 	private String nombre;
