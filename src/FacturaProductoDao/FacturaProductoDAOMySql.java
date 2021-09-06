@@ -11,13 +11,10 @@ import InterfacesyAbstracts.SQLConnection;
 import pojo.Factura_producto;
 
 public class FacturaProductoDAOMySql extends SQLConnection implements FacturaProductoDAOInterface {
-	
-	String driver;
-	String uri;
 
 	public FacturaProductoDAOMySql() {
 	}
-	
+
 	@Override
 	public void create(Factura_producto pojo) throws SQLException {
 //		System.out.println(pojo.toString());
@@ -49,7 +46,7 @@ public class FacturaProductoDAOMySql extends SQLConnection implements FacturaPro
 	@Override
 	public void update(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -64,7 +61,7 @@ public class FacturaProductoDAOMySql extends SQLConnection implements FacturaPro
 		this.closeConnection(conn);
 		Factura_producto f;
 		if (rs.next()) {
-			f = new Factura_producto(rs.getInt(1), rs.getInt(2),rs.getInt(3));
+			f = new Factura_producto(rs.getInt(1), rs.getInt(2), rs.getInt(3));
 			return f;
 		} else {
 			return null;
@@ -87,15 +84,13 @@ public class FacturaProductoDAOMySql extends SQLConnection implements FacturaPro
 		this.closeConnection(conn);
 		return facturaProductoList;
 	}
-	
+
 	public void createTables() throws SQLException {
 		Connection conn = this.createConnection();
-		String table = "CREATE TABLE IF NOT EXISTS factura_producto(" +
-				        "idFactura int NOT NULL," +
-				        "idProducto int NOT NULL," +
-				        "cantidad int," +
-				        "FOREIGN KEY (idFactura) REFERENCES factura(idFactura),"+
-				        "FOREIGN KEY (idProducto) REFERENCES producto(idProducto))";
+		String table = "CREATE TABLE IF NOT EXISTS factura_producto(" + "idFactura int NOT NULL,"
+				+ "idProducto int NOT NULL," + "cantidad int,"
+				+ "FOREIGN KEY (idFactura) REFERENCES factura(idFactura),"
+				+ "FOREIGN KEY (idProducto) REFERENCES producto(idProducto))";
 		conn.prepareStatement(table).execute();
 		conn.commit();
 		this.closeConnection(conn);
